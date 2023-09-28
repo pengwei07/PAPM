@@ -22,13 +22,9 @@ We employ five datasets spanning diverse domains, such as fluid dynamics and hea
 
 
 Dataset Link:
-- Burger2d (from PDENet++'s experiments): [Burger2d]()
+- Burger2d (from PDENet++'s experiments): [Burger2d](https://arxiv.org/abs/2307.14395)
 - RD2d (from PDEBench's experiments): [RD2d](https://darus.uni-stuttgart.de/file.xhtml?fileId=133017&version=5.0)
 - NS2d (from FNO's experiments):  [NS2d](https://drive.google.com/drive/folders/1UnbQh2WWc6knEHbLn-ZaXrKUZhp7pjt-)
-- Lid2d:  [Lid2d]()
-- NSM2d:  [NSM2d]()
-
-## 
 
 ### Get Start
 
