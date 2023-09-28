@@ -648,8 +648,9 @@ class papm_diffusive_flows(nn.Module):
         self.W_laplace2 = nn.Conv2d(1, 1, self.input_kernel_size, self.input_stride, padding=0, bias=False)
         
         weight_ori = (1/self.dx**2)*torch.tensor(lap_2d_op, dtype=torch.float32)
-        self.W_laplace1.weight = nn.Parameter(weight_ori)
-        self.W_laplace2.weight = nn.Parameter(weight_ori)
+        self.W_laplace1.weight = nn.Parameter(weight_ori, requires_grad=False)
+        self.W_laplace2.weight = nn.Parameter(weight_ori, requires_grad=False)
+        
         
     def periodic_padding(self, x, kernel_size):
         pad = kernel_size // 2
@@ -685,9 +686,8 @@ class papm_convective_flow(nn.Module):
         weight_x = (1/self.dx)*torch.tensor(lap_2d_x, dtype=torch.float32)
         weight_y = (1/self.dx)*torch.tensor(lap_2d_y, dtype=torch.float32)
         
-        self.W_grad_x.weight = nn.Parameter(weight_x)
-        self.W_grad_y.weight = nn.Parameter(weight_y)
-        #self.relu = nn.ReLU()
+        self.W_grad_x.weight = nn.Parameter(weight_x, requires_grad=False)
+        self.W_grad_y.weight = nn.Parameter(weight_y, requires_grad=False)
         
     def periodic_padding(self, x, kernel_size):
         pad = kernel_size // 2
