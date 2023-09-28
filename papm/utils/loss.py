@@ -38,7 +38,7 @@ class Loss_fun():
         assert output.shape == target.shape, "Output and Target shapes do not match!"
         
         # Calculate the relative error for each time step.
-        basic_loss = channel_relative_error(output, target)
+        basic_loss = self.channel_relative_error(output, target)
         
         # Calculate weights w_i and detach to ensure no gradient information is carried.
         cum_loss = torch.cumsum(basic_loss, dim=1)
