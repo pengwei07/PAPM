@@ -32,16 +32,7 @@ Dataset Link:
 
 ### Get Start
 
-Add dataset folder if it does not exists,
-
-``mdkir datasets``
-
-``cd datasets``
-To, store training models, you can build the folder:
-
-``mkdir weights``
-
-Then moves datasets in this folder. For your custom datasets, you might need to modify `args` and `utils/load_data` functions.
+Add dataset folder if it does not exist, ``mdkir datasets``, ``cd datasets``. To store training models, you can build the folder:``mkdir weights``. Then, move datasets to this folder. You might need to modify the `args` and `utils/load_data` functions for your custom datasets. 
 
 **Data Format:**
 
