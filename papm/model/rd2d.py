@@ -534,28 +534,20 @@ class papm_diffusive_flows(nn.Module):
     def __init__(self):
         super(papm_diffusive_flows, self).__init__()
         self.dx = 2/64 # dx
-        self.Du = 1e-3 # 扩散系数
-        self.Dv = 5*1e-3 # 扩散系数
+        self.Du = 1e-3 # Coefficient of diffusion D_u
+        self.Dv = 5*1e-3 # Coefficient of diffusion D_v
         self.input_stride = 1
         self.input_channels = 1
-        self.hidden_channels = 16
+        self.hidden_channels = 1
         
-        # Nonlinear term for u (up to 3rd order)
-        self.Wh1_u = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh2_u = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh3_u = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh4_u = nn.Conv2d(in_channels=self.hidden_channels, out_channels=1, kernel_size=1, stride=1, padding=0, bias=True)
+        # Nonlinear term for u
+        self.Wh1_u = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=5, stride=self.input_stride, padding=0, bias=True)
         
-        # Nonlinear term for u (up to 3rd order)
-        self.Wh1_v = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh2_v = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh3_v = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=1, stride=self.input_stride, padding=0, bias=True)
-        self.Wh4_v = nn.Conv2d(in_channels=self.hidden_channels, out_channels=1, kernel_size=1, stride=1, padding=0, bias=True)
-        
-        #self.relu = nn.ReLU()
+        # Nonlinear term for v
+        self.Wh1_v = nn.Conv2d(in_channels=self.input_channels, out_channels=self.hidden_channels, kernel_size=5, stride=self.input_stride, padding=0, bias=True)
         
         # initialize filter's wweight and bias
-        self.filter_list = [self.Wh1_u, self.Wh2_u, self.Wh3_u, self.Wh4_u, self.Wh1_v, self.Wh2_v, self.Wh3_v, self.Wh4_v]
+        self.filter_list = [self.Wh1_u, self.Wh1_v]
         self.init_filter(self.filter_list, c=0.02)
     
     def init_filter(self, filter_list, c):
@@ -574,8 +566,12 @@ class papm_diffusive_flows(nn.Module):
     def forward(self, x):
         u = x[:,0:1,...]
         v = x[:,1:2,...]
-        u_diff = self.Du * self.Wh4_u( self.Wh1_u(u)*self.Wh2_u(u)*self.Wh3_u(u) )
-        v_diff = self.Dv * self.Wh4_v( self.Wh1_v(v)*self.Wh2_v(v)*self.Wh3_v(v) )
+        # pad
+        u_pad = self.padding(u)
+        v_pad = self.padding(v)
+        
+        u_diff = self.Du * self.Wh1_u(u_pad)
+        v_diff = self.Dv * self.Wh1_v(v_pad)
         
         diffusive = torch.cat((u_diff, v_diff), dim=1)
         return diffusive
