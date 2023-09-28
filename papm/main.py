@@ -36,11 +36,16 @@ def get_gpu_mem_info(gpu_id=0):
 
 
 # train
-def train_one_epoch(model, device, data_loader, optimizer, criterion, args):
+def train_one_epoch(model, device, data_loader, optimizer, criterion, args, alpha):
     model.train()
     total_loss = 0
     init_step = args.init_step
     train_step = 50
+
+    # alpha
+    alpha_1 = 0.1
+    alpha_2 = 0.001
+    alpha_3 = 0
     
     for batch_idx, (data, phy) in enumerate(data_loader):
         if train_step > data.shape[1]:
@@ -52,7 +57,7 @@ def train_one_epoch(model, device, data_loader, optimizer, criterion, args):
         optimizer.zero_grad()
         # forward
         u_t1 = model(u_0, phy=phy, step=train_step-init_step)
-        loss_t  = criterion.relative_loss(u_t1, real_data)
+        loss_t  = criterion.relative_loss(u_t1, real_data, alpha)
 
         total_loss = total_loss + loss_t.item()
         loss_t.backward()
