@@ -10,8 +10,15 @@ Process systems, which play a fundamental role in various scientific and enginee
 - A systematic evaluation of state-of-the-art pure data-driven models alongside physics-aware models, spanning five two-dimensional non-trivial benchmarks in nine generalization tasks, as depicted. Notably, PAPM achieved an average absolute performance boost of 6.4%, requiring fewer FLOPs, and utilizing only 1%-10% of the parameters compared to alternative methods.
   
 ## Data
-We employ five datasets spanning diverse domains, such as fluid dynamics and heat conduction. By analyzing the TSSM scheme employed by PAPM, we've categorized these datasets accordingly, offering a structured understanding of their roles. 
--**Localized Category.** 1. **Burgers2d~\cite{huang2023learning}** is A 2D benchmark PDE with periodic BC given by the equation $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u}+\boldsymbol{f}$. Here, $\boldsymbol{u}=(u_x, u_y)$ represents velocity. The aim is to predict subsequent frames of $\boldsymbol{u}$ under various initial conditions and viscosity $nu$ using the initial frames, while the forcing term $f$ remains unknown. \textbf{RD2d~\cite{takamoto2022pdebench}} corresponds to a 2D F-N reaction-diffusion equation with no-flow Neumann BC, $\frac{\partial \boldsymbol{u}}{\partial t}= \nu \Delta \boldsymbol{u}+\boldsymbol{f}$. Here, $\boldsymbol{u}=(u, v)$ are the activator and inhibitor, respectively. The goal is to project subsequent frames under diverse initial conditions from the initial frames, with the source term as unknown. \textbf{2. Spectral Category.} \textbf{NS2d~\cite{li2020fourier}} is a dataset for incompressible fluid dynamics in vorticity form with periodic BC. The equation is $\frac{\partial w}{\partial t}= -u\nabla w + \nu \Delta w + f$, where $u$ is velocity, $w$ is vorticity, and $f$ is an unknown forcing term. The objective is to predict final frames from the initial frames of vorticity $w$ under varied initial conditions. \textbf{3. Hybrid Category.} \textbf{Lid2d} is a classical 2D dataset for incompressible lid-driven cavity flow with multiple BCs, $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p$. The goal is to predict subsequent frames \((u,v,p)\) based on initial ones at differing viscosity \(\nu\), assuming only two flows are known. \textbf{NSM2d} is incompressible fluid dynamics with a magnetic field, described by $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p + F.$ The target is to predict subsequent frames of $(u,v,p)$ using the initial frames, with the forcing term $F$ as an unknown.
+We employ five datasets spanning diverse domains, such as fluid dynamics and heat conduction. By analyzing the TSSM scheme employed by PAPM, we've categorized these datasets accordingly, offering a structured understanding of their roles.
+- **Localized Category.**
+  - **Burgers2d [1]** is a 2D benchmark PDE with periodic BC given by the equation $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u}+\boldsymbol{f}$. Here, $\boldsymbol{u}=(u_x, u_y)$ represents velocity. The aim is to predict subsequent frames of $\boldsymbol{u}$ under various initial conditions and viscosity $nu$ using the initial frames, while the forcing term $f$ remains unknown.
+  - **RD2d [2]** corresponds to a 2D F-N reaction-diffusion equation with no-flow Neumann BC, $\frac{\partial \boldsymbol{u}}{\partial t}= \nu \Delta \boldsymbol{u}+\boldsymbol{f}$. Here, $\boldsymbol{u}=(u, v)$ are the activator and inhibitor, respectively. The goal is to project subsequent frames under diverse initial conditions from the initial frames, with the source term as unknown.
+- **Spectral Category.**
+  - **NS2d [3]** is a dataset for incompressible fluid dynamics in vorticity form with periodic BC. The equation is $\frac{\partial w}{\partial t}= -u\nabla w + \nu \Delta w + f$, where $u$ is velocity, $w$ is vorticity, and $f$ is an unknown forcing term. The objective is to predict final frames from the initial frames of vorticity $w$ under varied initial conditions.
+- **Hybrid Category.**
+  - **Lid2d** is a classical 2D dataset for incompressible lid-driven cavity flow with multiple BCs, $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p$. The goal is to predict subsequent frames \((u,v,p)\) based on initial ones at differing viscosity \(\nu\), assuming only two flows are known.
+  - **NSM2d** is incompressible fluid dynamics with a magnetic field, described by $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p + F.$ The target is to predict subsequent frames of $(u,v,p)$ using the initial frames, with the forcing term $F$ as an unknown.
 
 
 Dataset Link:
@@ -22,3 +29,11 @@ Dataset Link:
 - NSM2d:  [NSM2d]()
 
 ## 
+
+
+
+
+## References
+[1] Huang X, Li Z, Liu H, et al. Learning to simulate partially known spatio-temporal dynamics with trainable difference operators[J]. arXiv preprint arXiv:2307.14395, 2023.\
+[2] Takamoto M, Praditia T, Leiteritz R, et al. PDEBench: An extensive benchmark for scientific machine learning[J]. Advances in Neural Information Processing Systems, 2022, 35: 1596-1611.\
+[3] Li Z, Kovachki N, Azizzadenesheli K, et al. Fourier neural operator for parametric partial differential equations[J]. arXiv preprint arXiv:2010.08895, 2020.
