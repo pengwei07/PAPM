@@ -562,13 +562,21 @@ class papm_diffusive_flows(nn.Module):
             # filter.weight.data.uniform_(-c * np.sqrt(1 / (5 * 5 * 16)), c * np.sqrt(1 / (5 * 5 * 16)))
             if filter.bias is not None:
                 filter.bias.data.fill_(0.0)
-                
+
+    def symmetrize(self, w):
+        return 0.5 * (w + w.transpose(-1, -2))
+
     def forward(self, x):
         u = x[:,0:1,...]
         v = x[:,1:2,...]
+        
         # pad
         u_pad = self.padding(u)
         v_pad = self.padding(v)
+        
+        # Symmetrize the weight matrices
+        self.Wh1_u.weight.data = self.symmetrize(self.Wh1_u.weight.data)
+        self.Wh1_v.weight.data = self.symmetrize(self.Wh1_v.weight.data)
         
         u_diff = self.Du * self.Wh1_u(u_pad)
         v_diff = self.Dv * self.Wh1_v(v_pad)
