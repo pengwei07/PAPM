@@ -30,7 +30,62 @@ Dataset Link:
 
 ## 
 
+### Get Start
 
+Add dataset folder if it does not exists,
+
+``mdkir datasets``
+
+``cd datasets``
+To, store training models, you can build the folder:
+
+``mkdir weights``
+
+Then moves datasets in this folder. For your custom datasets, you might need to modify `args` and `data_utils/load_data` functions.
+
+**Data Format:**
+
+The format of our dataset (Papm_Dataset) should be as follows:
+
+```python
+Dataset = [
+    [Timestep1, X1, Y1],
+    [Timestep2, X2, Y2],
+   ...
+]
+Physics_Parameters = [
+    [Param1],
+    [Param2],
+   ...
+]
+
+```
+- **Timestep**: (N_steps) numpy array, time steps for this sample
+    - N_theta: dimension of time steps for this dataset 
+
+- **X,Y**: (X_dim x Y_dim) numpy array, representing input mesh points
+- X_dim, Y_dim: input dimension of geometry
+
+- **Physics_Parameters**: (N_steps x 1) numpy array, representing physics parameter the model need,i.e, ``Reynolds number``
+
+- **Note:**
+    - For a single dataset sample, The number of points must match, i.e, ``X.shape[0]=Y.shape[0]``, but it can vary with different dataset.
+    - For physics parameters, the dimension must be the same as time_steps
+
+
+### Training
+
+To train PAPM model, parameters could be updated using argparser:
+
+```python
+python main.py --file_link='./datasets/burger_250_101_2_64_64.h5' --shuffle=True --model='lstm' --gpu='cuda:0' --dataset='burgers'
+```
+
+### Code Structure
+
+- ``main.py:`` main training function
+- ``utils:`` includes dataset, loss functions
+- ``models:`` folder for baselines and PAPM
 
 
 ## References
