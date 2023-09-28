@@ -65,7 +65,7 @@ Physics_Parameters = [
 To train PAPM model, parameters could be updated using argparser:
 
 ```python
-python main.py --file_link='./datasets/burger_250_101_2_64_64.h5' --shuffle=True --model='lstm' --gpu='cuda:0' --dataset='burgers' --train_bs=4 --val_bs=2 --seed=2023 --epoches=500 --test_accumulative_error=True
+python main.py --file_link='./datasets/burgers_500_101_2_64_64.h5' --shuffle=True --model='lstm' --gpu='cuda:0' --dataset='burgers' --train_bs=4 --val_bs=2 --seed=2023 --epoches=500 --test_accumulative_error=True
 ```
 
 ### Code Structure
