@@ -22,7 +22,7 @@ class Loss_fun():
         norm_error_time = norm_error_channel.mean(dim=2)
         return norm_error_time
 
-    def relative_loss(output, target, alpha):
+    def relative_loss_train(output, target, alpha):
         """
         Compute the weighted loss using relative error at the channel level.
     
@@ -50,6 +50,13 @@ class Loss_fun():
         final_loss = weighted_loss.mean()
     
         return final_loss
+
+    def relative_loss_val(output, target):
+        error = output - target
+        norm_error_channel = torch.norm(error, dim=[3, 4]) / (torch.norm(target, dim=[3, 4]) + 1e-8)
+        norm_error_time = norm_error_channel.mean(dim=2)
+        acc = norm_error_time.mean(dim=[0, 1])
+        return acc
 
     # return array, length=timesteps
     def point_relative_loss(self, output, target):
