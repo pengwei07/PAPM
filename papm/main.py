@@ -42,11 +42,6 @@ def train_one_epoch(model, device, data_loader, optimizer, criterion, args, alph
     init_step = args.init_step
     train_step = 50
 
-    # alpha
-    alpha_1 = 0.1
-    alpha_2 = 0.001
-    alpha_3 = 0
-    
     for batch_idx, (data, phy) in enumerate(data_loader):
         if train_step > data.shape[1]:
             train_step = data.shape[1]    
@@ -57,7 +52,7 @@ def train_one_epoch(model, device, data_loader, optimizer, criterion, args, alph
         optimizer.zero_grad()
         # forward
         u_t1 = model(u_0, phy=phy, step=train_step-init_step)
-        loss_t  = criterion.relative_loss(u_t1, real_data, alpha)
+        loss_t  = criterion.relative_loss_train(u_t1, real_data, alpha)
 
         total_loss = total_loss + loss_t.item()
         loss_t.backward()
@@ -77,7 +72,7 @@ def val_one_epoch(model, device, data_loader, criterion, args):
             
         # forward
         u_t1 = model(u_0, phy=phy, step=real_data.shape[1])
-        loss_t  = criterion.relative_loss(u_t1, real_data)
+        loss_t  = criterion.relative_loss_val(u_t1, real_data)
 
         total_loss = total_loss + loss_t.item()
     return_loss = total_loss / len(data_loader)
@@ -164,21 +159,37 @@ def main(args, train_loader, val_loader, test_loader):
     learning_rate = []
     train_time_per_epoch = np.zeros(num_epochs)
     test_time_per_epoch = np.zeros(num_epochs)
+
+    # alpha
+    alpha_1 = 0.1
+    alpha_2 = 0.001
+    alpha_3 = 0
     
     for epoch in range(num_epochs):
         if epoch % test_interval == 0:
             val_start_time = time.time()
             val_loss = val_one_epoch(model, device, val_loader, criterion, args)
             val_end_time = time.time()
-
-        start_time = time.time()
-        train_loss = train_one_epoch(model, device, train_loader, optimizer, criterion, args)
-        end_time = time.time()
+        # three stage
+        # stage 1-->alpha_1
+        if epoch<= int(num_epochs/3):
+            start_time = time.time()
+            train_loss = train_one_epoch(model, device, train_loader, optimizer, criterion, args, alpha_1)
+            end_time = time.time()
+        # stage 2-->alpha_2
+        if int(num_epochs/3) < epoch<= int(2*num_epochs/3):
+            start_time = time.time()
+            train_loss = train_one_epoch(model, device, train_loader, optimizer, criterion, args, alpha_2)
+            end_time = time.time()
+        # stage 3-->alpha_3    
+        if int(2*num_epochs/3) < epoch<= int(num_epochs):
+            start_time = time.time()
+            train_loss = train_one_epoch(model, device, train_loader, optimizer, criterion, args, alpha_3)
+            end_time = time.time()
             
         loss_train[epoch] = train_loss
         loss_test[epoch] = val_loss
         learning_rate.append(optimizer.state_dict()['param_groups'][0]['lr'])
-        
         
         training_time = end_time - start_time
         testing_time = val_end_time - val_start_time
@@ -227,7 +238,6 @@ def main(args, train_loader, val_loader, test_loader):
          np.save(args.pred_data_save_path, pred_data)
     note.close()
 
-        
 if __name__ == '__main__':
     parse = argparse.ArgumentParser()
     parse.add_argument("--loss_path", type=str, default='./loss_fun.png', help='The path to save loss function')
