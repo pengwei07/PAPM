@@ -64,7 +64,7 @@ def data_load(args):
 
     data_new = data_all
 
-    # 分割数据集,70%训练,20%测试
+    # split——>[0.7, 0.1, 0.2]
     X_train = data_new[row_rand_array[:int(0.7*N)]]
     X_val = data_new[row_rand_array[int(0.7*N):int(0.8*N)]]
     X_test = data_new[row_rand_array[int(0.8*N):int(1*N)]]
