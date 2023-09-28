@@ -41,7 +41,7 @@ To, store training models, you can build the folder:
 
 ``mkdir weights``
 
-Then moves datasets in this folder. For your custom datasets, you might need to modify `args` and `data_utils/load_data` functions.
+Then moves datasets in this folder. For your custom datasets, you might need to modify `args` and `utils/load_data` functions.
 
 **Data Format:**
 
