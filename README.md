@@ -18,7 +18,7 @@ We employ five datasets spanning diverse domains, such as fluid dynamics and hea
   - **NS2d [3]** is a dataset for incompressible fluid dynamics in vorticity form with periodic BC. The equation is $\frac{\partial w}{\partial t}= -u\nabla w + \nu \Delta w + f$, where $u$ is velocity, $w$ is vorticity, and $f$ is an unknown forcing term. The objective is to predict final frames from the initial frames of vorticity $w$ under varied initial conditions.
 - **Hybrid Category.**
   - **Lid2d** is a classical 2D dataset for incompressible lid-driven cavity flow with multiple BCs, $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p$. The goal is to predict subsequent frames $(u,v,p)$ based on initial ones at differing viscosity $nu$, assuming only two flows are known.
-  - **NSM2d** is incompressible fluid dynamics with a magnetic field, described by $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p + F.$ The target is to predict subsequent frames of $(u,v,p)$ using the initial frames, with the forcing term $F$ as an unknown.
+  - **NSM2d** is incompressible fluid dynamics with a magnetic field, described by $\frac{\partial \boldsymbol{u}}{\partial t}=-\boldsymbol{u} \cdot \nabla \boldsymbol{u}+ \nu \Delta \boldsymbol{u} - \nabla p + F$. The target is to predict subsequent frames of $(u,v,p)$ using the initial frames, with the forcing term $F$ as an unknown.
 
 
 Dataset Link:
