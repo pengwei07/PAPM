@@ -9,7 +9,7 @@ from torch.utils.data import Dataset
 
 
 # torch dataset
-class Papm_Dataset(Dataset):
+class model_dataset(Dataset):
     def __init__(self, data, phy=None):
         self.data = torch.from_numpy(data).float()
         if phy is not None:
@@ -34,17 +34,21 @@ def data_load(args):
     for k in f.keys():
         items.append(str(k))
     print('data items:', items)
-    data_u = np.array(f['u']).astype(np.float32)
-    data_u = data_u[:,:,np.newaxis,...]
-    data_v = np.array(f['v']).astype(np.float32)
-    data_v = data_v[:,:,np.newaxis,...]
-    if 'p' in f.keys():
-        data_p = np.array(f['p']).astype(np.float32)
-        data_p = data_p[:,:,np.newaxis,...]
-        data_all = np.concatenate([data_u,data_v,data_p],axis=2)
-    else:
-        data_all = np.concatenate([data_u,data_v],axis=2)
-
+    try:
+        data_u = np.array(f['u']).astype(np.float32)
+        data_u = data_u[:,:,np.newaxis,...]
+        data_v = np.array(f['v']).astype(np.float32)
+        data_v = data_v[:,:,np.newaxis,...]
+        if 'p' in f.keys():
+            data_p = np.array(f['p']).astype(np.float32)
+            data_p = data_p[:,:,np.newaxis,...]
+            data_all = np.concatenate([data_u,data_v,data_p],axis=2)
+        else:
+            data_all = np.concatenate([data_u,data_v],axis=2)
+    except:
+        data_all = np.array(f['vor']).astype(np.float32)
+        data_all = data_all[:,:,np.newaxis,...]
+    
     data_index = None
     if 'Re' in f.keys():
         data_index = np.array(f['Re']).astype(np.float32)
@@ -52,6 +56,9 @@ def data_load(args):
     print('data shape:', data_all.shape)
     if data_index is not None:
         data_index = data_index.reshape([data_index.shape[0], 1])
+
+    # 
+    data_all = data_all[:1000,...]
 
     N = data_all.shape[0]
     row_rand_array = np.arange(N)
@@ -64,8 +71,8 @@ def data_load(args):
 
     data_new = data_all
 
-    # split——>[0.7, 0.1, 0.2]
-    X_train = data_new[row_rand_array[:int(0.7*N)]]
+    # 70%->train, 10%->val, 20%->test
+    X_train = data_new[row_rand_array[:int(0.7*N*args.train_ratio)]]
     X_val = data_new[row_rand_array[int(0.7*N):int(0.8*N)]]
     X_test = data_new[row_rand_array[int(0.8*N):int(1*N)]]
     
