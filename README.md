@@ -1,15 +1,20 @@
 # PAPM: A Physics-aware Proxy Model for Process Systems
 
-Process systems, which play a fundamental role in various scientific and engineering fields, often rely on computational models to capture their complex temporal-spatial dynamics. However, due to limited insights into the intricate physical principles, these models can be imprecise or inapplicable, coupled with a significant computational demand exacerbating inefficiencies. To address these challenges, we propose a **p**hysics-**a**ware **p**roxy **m**odel (**PAPM**) to explicitly incorporate partial prior physics of process systems, including the general form of conservation and constitutive relations. Additionally, to enhance the inductive biases about strict physical laws and broaden the applicability scope, we introduce a holistic temporal-spatial stepping module aligned with the distinct characteristics of different process systems, resulting in better out-of-sample generalization. We systematically compare state-of-the-art pure data-driven models and physics-aware models, spanning five two-dimensional non-trivial benchmarks. Notably, PAPM achieves an average absolute performance improvement of 6.7\%, while requiring fewer FLOPs, and only 1\% of the parameters compared to the prior leading method.
+In the context of proxy modeling for process systems, traditional data-driven deep learning approaches frequently encounter significant challenges, such as substantial training costs induced by large amounts of data, and limited generalization capabilities.
+As a promising alternative, physics-aware models incorporate partial physics knowledge to ameliorate these challenges.
+Although demonstrating efficacy, they fall short in terms of exploration depth and universality.
+To address these shortcomings, we introduce a **p**hysics-**a**ware **p**roxy **m**odel (**PAPM**) that fully incorporate partial prior physics of process systems, which includes multiple input conditions and the general form of conservation relations, resulting in better out-of-sample generalization.
+Additionally, PAPM contains a holistic temporal-spatial stepping module for flexible adaptation across various process systems.
+Through systematic comparisons with state-of-the-art pure data-driven and physics-aware models across five two-dimensional benchmarks in nine generalization tasks, PAPM notably achieves an average performance improvement of 6.7\%, while requiring fewer FLOPs, and just 1\% of the parameters compared to the prior leading method.
 
 
 ![](fig/pipline.jpg)
 
 **The core contributions of this work are:**
-- The proposal of PAPM, a general physics-aware architecture design that explicitly incorporates partial prior mechanistic knowledge such as boundary conditions, conservation, and constitutive relations. This design proves to be superior in terms of both training efficiency and out-of-sample generalizability.
-- The introduction of a holistic temporal-spatial stepping module (TSSM). It aligns with the distinct equation characteristics of different process systems by employing stepping schemes via temporal and spatial operations, whether in physical or spectral space.
-- A systematic evaluation of state-of-the-art pure data-driven models alongside physics-aware models, spanning five two-dimensional non-trivial benchmarks. Notably, PAPM achieved an average absolute performance boost of 6.7\%, requiring fewer FLOPs, and only 1\%-10\% of the parameters compared to alternative methods.
-
+- The proposal of PAPM, a versatile physics-aware architecture design that fully incorporates partial prior knowledge such as multiple conditions, and the general form of conservation relations. This design proves to be superior in both training efficiency and out-of-sample generalizability.
+- The introduction of a holistic temporal-spatial stepping module (TSSM) for flexible adaptation across various process systems. It aligns with the distinct equation characteristics of different process systems by employing stepping schemes via temporal and spatial operations, whether in physical or spectral space.
+- A systematic evaluation of state-of-the-art pure data-driven models alongside physics-aware models, spanning five two-dimensional non-trivial benchmarks. Notably, PAPM achieved an average absolute performance boost of 6.7\% with fewer FLOPs and only 1\%-10\% of the parameters compared to alternative methods.
+  
 ## Data
 As shown in following Table, we employ five datasets spanning diverse domains, such as fluid dynamics and heat conduction, detailed in Appendix. These datasets are categorized based on the Temporal-Spatial Stepping Method used in PAPM to highlight distinct equation characteristics in various process systems.
 
