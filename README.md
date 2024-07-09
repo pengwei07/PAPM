@@ -1,4 +1,6 @@
-# PAPM: A Physics-aware Proxy Model for Process Systems
+# PAPM: A Physics-aware Proxy Model for Process Systems (ICML 2024)
+
+[Paper](https://arxiv.org/abs/2407.05232)
 
 In the context of proxy modeling for process systems, traditional data-driven deep learning approaches frequently encounter significant challenges, such as substantial training costs induced by large amounts of data, and limited generalization capabilities.
 As a promising alternative, physics-aware models incorporate partial physics knowledge to ameliorate these challenges.
